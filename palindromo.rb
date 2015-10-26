@@ -4,4 +4,4 @@ def is_palindrome? (palindrom_candidate)
   return(clean_palindrome.reverse == clean_palindrome)
 end
 
-puts is_palindrome?("Race car")
+puts is_palindrome?("Race,cl car")
