@@ -31,20 +31,22 @@ class Handler
     puts("Welcome to TextBnB! Choose an option:\n")
     option = -1
     while !(option == 0)
-      puts("1 - Show Homes\n2 - Look for city\n3 - Look for price\n4 - Order by price\n5 - Get the average price\n0 - Exit")
+      puts("1 - Show Homes\n2 - Look for city\n3 - Look for exact price\n4 - Order by price\n5 - Get the average price\n6 - Look by your budget\n0 - Exit")
       case option = gets.chomp.to_i
         when 1
           showHomes(@homes)
         when 2
-          lookForCity(@homes)
+          showHomes(lookForCity(@homes))
         when 3
           lookForPrice(@homes)
         when 4
-          orderByPrice(@homes)
+          showHomes(orderByPrice(@homes))
         when 5
           prices = @homes.map { |home| home.price }
           avg = prices.reduce(0.0) { |sum, price| sum += price } / prices.length
           puts ("The average price is #{avg} euros\n")
+        when 6
+          showHomes(lookByBudget(@homes))
         when 0
       end
     end
@@ -57,8 +59,7 @@ class Handler
   def lookForCity(arr)
     puts "Give me the city you are looking at:"
     userCity = gets.chomp.downcase.capitalize!
-    byCityHomes = arr.select{ |hm| hm.city == userCity }
-    showHomes(byCityHomes)
+    byCityHomes = arr.select { |home| home.city == userCity }
   end
 
   def lookForPrice(arr)
@@ -68,9 +69,14 @@ class Handler
     puts("#{byPriceHome.name} in #{byPriceHome.city}\nPrice: $#{byPriceHome.price.to_s} a night\n\n")
   end
 
-  def orderByPrice (arr)
+  def orderByPrice(arr)
     homesByPrice = arr.sort { |home1, home2| home1.price <=> home2.price }
-    showHomes(homesByPrice)
+  end
+
+  def lookByBudget(arr)
+    puts "Give me the maximum price you can pay:"
+    budget = gets.chomp.to_i
+    homesFittingBudget = arr.select { |home| home.price <= budget}
   end
 end
 
