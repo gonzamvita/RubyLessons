@@ -7,7 +7,6 @@ class Employee
     @name = name
     @email = email
   end
-
 end
 
 class HourlyEmployee < Employee
@@ -42,7 +41,7 @@ class MultiPaymentEmployee < Employee
   end
 
   def calculate_salary
-    ((@year_salary / 12) / 4) + (@hourly_rate * @hours_worked)
+    ((@year_salary / 12) / 4) + @hourly_rate * (@hours_worked > 40 ? @hours_worked - 40 : 0)
   end
 end
 
