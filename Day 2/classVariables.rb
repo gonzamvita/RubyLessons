@@ -7,7 +7,7 @@ class Muffin
     @flavour = flavour
   end
 
-  def shop #para acceder a la variable de clase mejor crear un método
+  def shop #to acces class variables better create a method!
     @@shop
   end
 end
