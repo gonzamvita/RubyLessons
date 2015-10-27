@@ -1,20 +1,19 @@
 require 'Date'
-require 'Pry'
 
 class Blog
-  attr_accessor :timeline, :frontPage
+  attr_accessor :allPosts, :frontPage
 
   def initialize
-    @timeline = []
+    @allPosts = []
     @frontPage = []
   end
 
   def add_post (post)
-    @timeline << post
+    @allPosts << post
   end
 
   def create_front_page
-    @frontPage = @timeline.each { |post| @frontPage<<post }
+    @frontPage = @allPosts.each { |post| @frontPage<<post }
   end
 
   def publish_front_page
@@ -34,11 +33,17 @@ class Post
   end
 end
 
+class SponsoredPost < Post
+  def initialize (title, date, text)
+    @sponsoredTitle = "******#{title}******"
+    super(@sponsoredTitle, date, text)
+  end
+end
+
 blog = Blog.new
 blog.add_post Post.new("Post title 1", DateTime.now(), "Post 1 text")
-blog.add_post Post.new("Post title 2", DateTime.now(), "Post 2 text")
+blog.add_post SponsoredPost.new("Post title 2", DateTime.now(), "Post 2 text")
 blog.add_post Post.new("Post title 3", DateTime.now(), "Post 3 text")
-binding.pry
 
 blog.create_front_page
 blog.publish_front_page
