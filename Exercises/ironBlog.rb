@@ -17,14 +17,14 @@ class Blog
   end
 
   def publish_front_page
-    @frontPage.each do |post|
+    @frontPage.sort! { |a,b| b.date <=> a.date }.each do |post|
       puts ("#{post.title}\n**************\n#{post.text}\n----------------\n")
     end
   end
 end
 
 class Post
-  attr_reader :title, :text
+  attr_reader :title, :text, :date
 
   def initialize (title, date, text)
     @title = title
