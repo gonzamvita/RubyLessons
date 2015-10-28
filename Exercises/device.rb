@@ -34,6 +34,8 @@ class Phone < Device
   def call_contact contact
     if @agenda.include? contact
       puts "Llamando a #{contact.name}..."
+    else
+      puts "#{contact.name} no está en la agenda..."
     end
   end
 end
@@ -61,6 +63,19 @@ class Laptop < Device
   end
 end
 
+class Microwave
+  def initialize
+  end
+
+  def heat_food
+    puts "bzzzzzzzzzzzzzzzzzzzz"
+  end
+
+  def print_current_time
+    puts DateTime.now
+  end
+end
+
 class Agenda
   def initialize
     @contacts = []
@@ -85,28 +100,10 @@ class Contact
 end
 
 iWatch = SmartWatch.new("iOS 8", 1.88)
-iWatch.print_current_time()
-
 macBook = Laptop.new("OSX Yosemite", 13.1, false)
-macBook.print_current_time()
+galaxyS6 = Phone.new("Android 6", 5.5, Agenda.new())
+bosch = Microwave.new()
 
-gonzalo = Contact.new("Gonzalo", "123456789")
-iago = Contact.new("Iago", "123456789")
-laura = Contact.new("Laura", "123456789")
-lluis = Contact.new("Lluis", "123456789")
-fer = Contact.new("Fer", "123456789")
-roberto = Contact.new("Roberto", "123456789")
+array =[iWatch, macBook, galaxyS6, bosch]
 
-ag = Agenda.new()
-
-ag.add_contact(gonzalo)
-ag.add_contact(iago)
-ag.add_contact(laura)
-ag.add_contact(lluis)
-ag.add_contact(fer)
-ag.add_contact(roberto)
-ag.show_agenda
-
-galaxS6 = Phone.new("Android 6", 5.5, ag)
-galaxS6.print_current_time()
-galaxS6.take_photo
+array.each { |device| device.print_current_time }
