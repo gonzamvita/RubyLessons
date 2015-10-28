@@ -1,16 +1,16 @@
 require 'Time'
 
 module CanTakePhotos
-  def self.take_photo os
-    "Photo taken in #{os}"
+  def self.take_photo operatingSystem
+    "Photo taken in #{operatingSystem}"
   end
 end
 
 class Device
-  attr_reader :os
+  attr_reader :operatingSystem
 
-  def initialize(os, screenSize)
-    @os = os
+  def initialize(operatingSystem, screenSize)
+    @operatingSystem = operatingSystem
     @screenSize = screenSize
   end
 
@@ -22,29 +22,27 @@ end
 class Phone < Device
   include CanTakePhotos
 
-  def initialize(os, screenSize)
-    super(os, screenSize)
-    @agenda = []
-  end
-
-  def add_contact contact
-    @agenda << contact
-  end
-
-  def show_agenda
-    @agenda.each { |contact| puts "#{contact.name}: #{contact.phone}" }
+  def initialize(operatingSystem, screenSize, agenda)
+    super(operatingSystem, screenSize)
+    @agenda = agenda
   end
 
   def take_photo
-    puts CanTakePhotos::take_photo(@os)
+    puts CanTakePhotos::take_photo(@operatingSystem)
+  end
+
+  def call_contact contact
+    if @agenda.include? contact
+      puts "Llamando a #{contact.name}..."
+    end
   end
 end
 
 class SmartWatch < Device
   include CanTakePhotos
 
-  def initialize (os, screenSize)
-    super(os, screenSize)
+  def initialize (operatingSystem, screenSize)
+    super(operatingSystem, screenSize)
   end
 
   def print_current_time
@@ -52,14 +50,28 @@ class SmartWatch < Device
   end
 
   def take_photo
-    puts CanTakePhotos::take_photo(@os)
+    puts CanTakePhotos::take_photo(@operatingSystem)
   end
 end
 
 class Laptop < Device
-  def initialize(os, screenSize, touchable)
-    super(os, screenSize)
+  def initialize(operatingSystem, screenSize, touchable)
+    super(operatingSystem, screenSize)
     @touchable = touchable
+  end
+end
+
+class Agenda
+  def initialize
+    @contacts = []
+  end
+
+  def add_contact contact
+    @contacts << contact
+  end
+
+  def show_agenda
+    @contacts.each { |contact| puts "#{contact.name}: #{contact.phone}" }
   end
 end
 
@@ -71,9 +83,6 @@ class Contact
     @phone = phone
   end
 end
-
-galaxS6 = Phone.new("Android 6", 5.5)
-galaxS6.print_current_time()
 
 iWatch = SmartWatch.new("iOS 8", 1.88)
 iWatch.print_current_time()
@@ -88,12 +97,16 @@ lluis = Contact.new("Lluis", "123456789")
 fer = Contact.new("Fer", "123456789")
 roberto = Contact.new("Roberto", "123456789")
 
-galaxS6.add_contact(gonzalo)
-galaxS6.add_contact(iago)
-galaxS6.add_contact(laura)
-galaxS6.add_contact(lluis)
-galaxS6.add_contact(fer)
-galaxS6.add_contact(roberto)
-galaxS6.show_agenda
+ag = Agenda.new()
 
+ag.add_contact(gonzalo)
+ag.add_contact(iago)
+ag.add_contact(laura)
+ag.add_contact(lluis)
+ag.add_contact(fer)
+ag.add_contact(roberto)
+ag.show_agenda
+
+galaxS6 = Phone.new("Android 6", 5.5, ag)
+galaxS6.print_current_time()
 galaxS6.take_photo
