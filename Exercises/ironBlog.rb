@@ -3,11 +3,12 @@ require 'Pry'
 
 class Blog
   attr_reader :allPosts, :frontPage, :totalPages, :pageSize, :page
+
   def initialize
     @allPosts = []
     @frontPage = []
     @totalPages = 0
-    @pageSize = 3
+    @pageSize = 4
     @page = 1
   end
 
@@ -34,7 +35,7 @@ class Blog
 
   def print_pagination
     puts("")
-    for i in 1..@pageSize do
+    for i in 1..@totalPages do
       print("#{i}\s\s")
     end
     puts("\n\n> next")
