@@ -1,6 +1,14 @@
 require 'Time'
 
+module CanTakePhotos
+  def self.take_photo os
+    "Photo taken in #{os}"
+  end
+end
+
 class Device
+  attr_reader :os
+
   def initialize(os, screenSize)
     @os = os
     @screenSize = screenSize
@@ -12,6 +20,8 @@ class Device
 end
 
 class Phone < Device
+  include CanTakePhotos
+
   def initialize(os, screenSize)
     super(os, screenSize)
     @agenda = []
@@ -24,15 +34,25 @@ class Phone < Device
   def show_agenda
     @agenda.each { |contact| puts "#{contact.name}: #{contact.phone}" }
   end
+
+  def take_photo
+    puts CanTakePhotos::take_photo(@os)
+  end
 end
 
 class SmartWatch < Device
+  include CanTakePhotos
+
   def initialize (os, screenSize)
     super(os, screenSize)
   end
 
   def print_current_time
     puts "***#{Time.now().strftime("%Y-%m-%d %H:%M:%S")}***"
+  end
+
+  def take_photo
+    puts CanTakePhotos::take_photo(@os)
   end
 end
 
@@ -75,3 +95,5 @@ galaxS6.add_contact(lluis)
 galaxS6.add_contact(fer)
 galaxS6.add_contact(roberto)
 galaxS6.show_agenda
+
+galaxS6.take_photo
