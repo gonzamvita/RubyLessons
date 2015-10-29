@@ -28,10 +28,9 @@ class Phone < Device
   end
 
   def call_contact contact
-    if @agenda.include? contact
+    @agenda.each { |search_contact|  } contact
+    if contact.name == search_contact.name
       puts "Llamando a #{contact.name}..."
-    else
-      puts "#{contact.name} no está en la agenda..."
     end
   end
 end
